@@ -1,0 +1,34 @@
+# macOS
+.DS_Store
+
+# Claude Code 설정
+.claude/
+
+# 환경변수 (절대 커밋하지 말 것)
+.env
+*.env
+
+# SSH 키
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+*.egg-info/
+
+# Node
+node_modules/
+dist/
+
+# 업로드 파일 (로컬 개발용)
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# 로그
+*.log
+nohup.out

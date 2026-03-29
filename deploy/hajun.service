@@ -1,0 +1,34 @@
+# =====================================================================
+# hajun.service — systemd 서비스 파일
+# FastAPI 서버를 백그라운드에서 상시 구동하고, 죽으면 자동 재시작합니다.
+#
+# EC2 서버에서 설치 방법:
+#   sudo cp hajun.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable hajun   # 부팅 시 자동 시작
+#   sudo systemctl start hajun    # 지금 바로 시작
+# =====================================================================
+
+[Unit]
+Description=Hajun Photo Gallery Backend
+After=network.target
+
+[Service]
+User=ubuntu
+WorkingDirectory=/opt/hajun/backend
+# venv의 uvicorn 사용
+ExecStart=/opt/hajun/backend/venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+# 프로세스가 죽으면 5초 후 자동 재시작
+Restart=always
+RestartSec=5
+
+# 환경변수 파일 로드 (.env)
+EnvironmentFile=/opt/hajun/backend/.env
+
+# 로그는 journald로 수집 (sudo journalctl -u hajun -f 로 확인)
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
